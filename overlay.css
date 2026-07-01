@@ -65,7 +65,7 @@
   flex: 1 1 auto;
   min-height: 0; /* let the text area shrink so header/footer never get clipped */
   overflow-y: auto;
-  padding: 18px 26px 40vh 26px; /* large bottom pad so last lines can scroll to center */
+  padding: 18px 26px;
   scroll-behavior: auto;
 }
 
@@ -84,6 +84,10 @@
   font-weight: 500;
   white-space: pre-wrap;
   word-wrap: break-word;
+  /* Scroll-past-the-end room lives on the inner content, not the scroll
+     container: container padding cannot shrink and was clipping the footer
+     off small windows. */
+  padding-bottom: 40vh;
 }
 
 #ltp-text .ltp-new {
