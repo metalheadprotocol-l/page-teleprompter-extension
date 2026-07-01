@@ -26,8 +26,13 @@ chats, captions).
   highlighted briefly in blue.
 - **Sync: on/off** — when on, scrolling the webpage scrolls the prompter in
   real time (proportional position mapping; works for the window and inner
-  scrollable panels). Pressing Play switches Sync off, since auto-scroll and
-  page sync would fight each other.
+  scrollable panels). While Play is running, incoming sync is ignored so the
+  two never fight; pause to resume following the page.
+- **Persist: on/off** — the tab where you enable Persist becomes the source.
+  Switch to any other tab and the prompter automatically appears there,
+  streaming the source tab's text (and its scrolling) live. Turn Persist off
+  from any tab and every overlay returns to its own page's content. Closing
+  the source tab or its overlay also ends Persist.
 - **Mirror** flips the text horizontally for beam-splitter teleprompter rigs.
 - **Hide ctrls / Show ctrls** collapses the bottom bar (speed/size sliders)
   for a cleaner, smaller prompter window.
@@ -46,6 +51,11 @@ chats, captions).
   is never lost.
 - Auto-scroll uses `requestAnimationFrame` for smooth, per-pixel scrolling at
   an adjustable px/second rate.
+- Persist mode is coordinated by `background.js` (a service worker): the
+  source tab pushes its extracted text and scroll fraction, the worker caches
+  them in `chrome.storage.session` (so state survives worker restarts) and
+  relays updates to every other tab, where the overlay renders in a "remote"
+  mode with page-specific controls (Reload/Live) hidden.
 
 ## Limitations
 
