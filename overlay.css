@@ -135,7 +135,43 @@
   max-width: 100%;
 }
 
+/* Grab strips along the window borders for moving the overlay. */
+.ltp-edge {
+  position: absolute;
+  cursor: move;
+  z-index: 1;
+}
+
+.ltp-edge:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+#ltp-edge-left {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  border-radius: 12px 0 0 12px;
+}
+
+#ltp-edge-right {
+  right: 0;
+  top: 0;
+  bottom: 18px; /* keep clear of the resize corner */
+  width: 7px;
+  border-radius: 0 12px 0 0;
+}
+
+#ltp-edge-bottom {
+  left: 0;
+  right: 18px; /* keep clear of the resize corner */
+  bottom: 0;
+  height: 7px;
+  border-radius: 0 0 0 12px;
+}
+
 #ltp-resize {
+  z-index: 2;
   position: absolute;
   right: 0;
   bottom: 0;

@@ -359,6 +359,9 @@
         <input type="range" id="ltp-size" min="14" max="72" value="28">
         <span id="ltp-status"></span>
       </div>
+      <div class="ltp-edge" id="ltp-edge-left"></div>
+      <div class="ltp-edge" id="ltp-edge-right"></div>
+      <div class="ltp-edge" id="ltp-edge-bottom"></div>
       <div id="ltp-resize"></div>
     `;
     document.documentElement.appendChild(overlay);
@@ -404,6 +407,7 @@
     });
 
     makeDraggable(overlay.querySelector('#ltp-header'));
+    overlay.querySelectorAll('.ltp-edge').forEach(makeDraggable);
     makeResizable(overlay.querySelector('#ltp-resize'));
 
     overlay.tabIndex = -1;

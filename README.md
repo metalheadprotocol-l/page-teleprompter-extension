@@ -36,9 +36,9 @@ chats, captions).
 - **Mirror** flips the text horizontally for beam-splitter teleprompter rigs.
 - **Hide ctrls / Show ctrls** collapses the bottom bar (speed/size sliders)
   for a cleaner, smaller prompter window.
-- Drag the header to move, drag the bottom-right corner to resize. The
-  control bars stay visible at any size; sliders wrap to a second row on
-  narrow windows.
+- Drag the header or any window edge (left, right, bottom) to move; drag the
+  bottom-right corner to resize. The control bars stay visible at any size;
+  sliders wrap to a second row on narrow windows.
 
 ## How it works
 
