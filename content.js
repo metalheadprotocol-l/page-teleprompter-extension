@@ -18,6 +18,7 @@
   let sourceEl = null;        // element we extract text from
   let observer = null;        // MutationObserver for live sync
   let liveSync = true;
+  let scrollSync = false;     // mirror page scrolling into the prompter
   let scrolling = false;
   let speed = 40;             // px per second
   let rafId = null;
@@ -135,6 +136,34 @@
     clearTimeout(refreshTimer);
   }
 
+  // ---------- page scroll sync ----------
+
+  function onPageScroll(e) {
+    if (!viewport || !overlay) return;
+    const el =
+      e.target === document || e.target === window
+        ? document.scrollingElement
+        : e.target;
+    if (!el || !(el instanceof Element)) return;
+    // Ignore scrolls that happen inside our own overlay.
+    if (overlay.contains(el)) return;
+    const max = el.scrollHeight - el.clientHeight;
+    if (max <= 0) return;
+    const frac = el.scrollTop / max;
+    viewport.scrollTop =
+      frac * (viewport.scrollHeight - viewport.clientHeight);
+  }
+
+  function startScrollSync() {
+    // Capture phase so we also catch scrolls of inner containers
+    // (scroll events don't bubble from regular elements).
+    window.addEventListener('scroll', onPageScroll, true);
+  }
+
+  function stopScrollSync() {
+    window.removeEventListener('scroll', onPageScroll, true);
+  }
+
   // ---------- auto-scroll ----------
 
   function tick(ts) {
@@ -155,6 +184,13 @@
 
   function toggleScroll(on) {
     scrolling = on === undefined ? !scrolling : on;
+    if (scrolling && scrollSync) {
+      // Auto-scroll takes over: drop page sync so they don't fight.
+      scrollSync = false;
+      stopScrollSync();
+      const syncBtn = overlay && overlay.querySelector('#ltp-sync');
+      if (syncBtn) syncBtn.textContent = 'Sync: off';
+    }
     if (playBtn) {
       playBtn.textContent = scrolling ? 'Pause' : 'Play';
       playBtn.classList.toggle('ltp-active', scrolling);
@@ -180,6 +216,7 @@
         <button class="ltp-btn" id="ltp-play">Play</button>
         <button class="ltp-btn" id="ltp-reload" title="Re-read page text">Reload</button>
         <button class="ltp-btn" id="ltp-live" title="Keep syncing as the page changes">Live: on</button>
+        <button class="ltp-btn" id="ltp-sync" title="Scroll the prompter in sync with the page">Sync: off</button>
         <button class="ltp-btn" id="ltp-mirror" title="Mirror for beam-splitter glass">Mirror</button>
         <button class="ltp-btn" id="ltp-ctrls" title="Hide or show the speed/size controls">Hide ctrls</button>
         <button class="ltp-btn" id="ltp-close">X</button>
@@ -218,6 +255,19 @@
       e.target.textContent = liveSync ? 'Live: on' : 'Live: off';
       if (liveSync) startObserver();
       else stopObserver();
+    });
+    overlay.querySelector('#ltp-sync').addEventListener('click', (e) => {
+      scrollSync = !scrollSync;
+      e.target.textContent = scrollSync ? 'Sync: on' : 'Sync: off';
+      if (scrollSync) {
+        toggleScroll(false); // auto-scroll would fight the page sync
+        startScrollSync();
+        onPageScroll({ target: document }); // align immediately
+        setStatus('scroll sync on');
+      } else {
+        stopScrollSync();
+        setStatus('scroll sync off');
+      }
     });
     overlay.querySelector('#ltp-speed').addEventListener('input', (e) => {
       speed = Number(e.target.value);
@@ -319,6 +369,8 @@
   function destroy() {
     toggleScroll(false);
     stopObserver();
+    stopScrollSync();
+    scrollSync = false;
     if (overlay) {
       overlay.remove();
       overlay = null;

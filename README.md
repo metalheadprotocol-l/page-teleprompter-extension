@@ -24,6 +24,10 @@ chats, captions).
 - **Live: on/off** — when on, a MutationObserver watches the page; any new
   text (e.g. a live transcript appending lines) streams into the prompter,
   highlighted briefly in blue.
+- **Sync: on/off** — when on, scrolling the webpage scrolls the prompter in
+  real time (proportional position mapping; works for the window and inner
+  scrollable panels). Pressing Play switches Sync off, since auto-scroll and
+  page sync would fight each other.
 - **Mirror** flips the text horizontally for beam-splitter teleprompter rigs.
 - **Hide ctrls / Show ctrls** collapses the bottom bar (speed/size sliders)
   for a cleaner, smaller prompter window.

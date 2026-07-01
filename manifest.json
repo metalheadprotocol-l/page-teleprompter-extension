@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Page Teleprompter",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Turns the text of the current webpage (or your selection) into a floating, auto-scrolling teleprompter overlay.",
   "permissions": ["activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
