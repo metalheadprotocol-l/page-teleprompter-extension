@@ -181,6 +181,7 @@
         <button class="ltp-btn" id="ltp-reload" title="Re-read page text">Reload</button>
         <button class="ltp-btn" id="ltp-live" title="Keep syncing as the page changes">Live: on</button>
         <button class="ltp-btn" id="ltp-mirror" title="Mirror for beam-splitter glass">Mirror</button>
+        <button class="ltp-btn" id="ltp-ctrls" title="Hide or show the speed/size controls">Hide ctrls</button>
         <button class="ltp-btn" id="ltp-close">X</button>
       </div>
       <div id="ltp-viewport"><div id="ltp-text"></div></div>
@@ -204,6 +205,10 @@
     overlay.querySelector('#ltp-close').addEventListener('click', destroy);
     overlay.querySelector('#ltp-mirror').addEventListener('click', () => {
       overlay.classList.toggle('ltp-mirrored');
+    });
+    overlay.querySelector('#ltp-ctrls').addEventListener('click', (e) => {
+      const hidden = overlay.classList.toggle('ltp-controls-hidden');
+      e.target.textContent = hidden ? 'Show ctrls' : 'Hide ctrls';
     });
     overlay.querySelector('#ltp-reload').addEventListener('click', () => {
       loadSource();
