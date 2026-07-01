@@ -25,7 +25,11 @@ chats, captions).
   text (e.g. a live transcript appending lines) streams into the prompter,
   highlighted briefly in blue.
 - **Mirror** flips the text horizontally for beam-splitter teleprompter rigs.
-- Drag the header to move, drag the bottom-right corner to resize.
+- **Hide ctrls / Show ctrls** collapses the bottom bar (speed/size sliders)
+  for a cleaner, smaller prompter window.
+- Drag the header to move, drag the bottom-right corner to resize. The
+  control bars stay visible at any size; sliders wrap to a second row on
+  narrow windows.
 
 ## How it works
 

@@ -23,7 +23,8 @@
 #ltp-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px 8px;
   padding: 6px 10px;
   background: rgba(255, 255, 255, 0.07);
   cursor: move;
@@ -62,8 +63,9 @@
 
 #ltp-viewport {
   flex: 1 1 auto;
+  min-height: 0; /* let the text area shrink so header/footer never get clipped */
   overflow-y: auto;
-  padding: 18px 26px 40vh 26px; /* large bottom pad so last lines can scroll to center */
+  padding: 18px 26px;
   scroll-behavior: auto;
 }
 
@@ -82,6 +84,10 @@
   font-weight: 500;
   white-space: pre-wrap;
   word-wrap: break-word;
+  /* Scroll-past-the-end room lives on the inner content, not the scroll
+     container: container padding cannot shrink and was clipping the footer
+     off small windows. */
+  padding-bottom: 40vh;
 }
 
 #ltp-text .ltp-new {
@@ -96,10 +102,15 @@
 #ltp-footer {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap; /* sliders wrap to a new row instead of being squeezed out */
+  gap: 4px 10px;
   padding: 5px 10px;
   background: rgba(255, 255, 255, 0.05);
   flex: 0 0 auto;
+}
+
+#ltp-overlay.ltp-controls-hidden #ltp-footer {
+  display: none;
 }
 
 .ltp-slider-label {
@@ -110,6 +121,7 @@
 
 #ltp-footer input[type="range"] {
   width: 90px;
+  flex: 0 0 auto; /* never compress the sliders to zero width */
   accent-color: #8ab4f8;
 }
 
@@ -118,6 +130,9 @@
   font-size: 10px;
   margin-left: auto;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 #ltp-resize {
