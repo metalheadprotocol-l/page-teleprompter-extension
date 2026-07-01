@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 240px;
+      margin: 0;
+      padding: 14px;
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background: #14161a;
+      color: #e6e8ec;
+    }
+    h1 { font-size: 14px; margin: 0 0 10px; }
+    button {
+      width: 100%;
+      padding: 9px;
+      border: none;
+      border-radius: 8px;
+      background: #8ab4f8;
+      color: #10131a;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #a5c5fa; }
+    p { font-size: 11px; color: #9aa4b2; line-height: 1.5; margin: 10px 0 0; }
+  </style>
+</head>
+<body>
+  <h1>Page Teleprompter</h1>
+  <button id="toggle">Show / hide teleprompter</button>
+  <p>
+    Reads the current page's text into a scrolling prompter overlay.
+    Tip: select text on the page first to prompt only that part.
+    "Live: on" keeps the prompter synced as the page updates.
+  </p>
+  <script src="popup.js"></script>
+</body>
+</html>

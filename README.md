@@ -1,0 +1,48 @@
+# Page Teleprompter (Chrome extension)
+
+Turns the text of the **current webpage** into a floating, auto-scrolling
+teleprompter overlay. No pasting needed — it extracts the page's readable text
+directly, and can keep syncing while the page updates (live transcripts,
+chats, captions).
+
+## Install (unpacked)
+
+1. Open Chrome and go to `chrome://extensions`.
+2. Enable **Developer mode** (top-right toggle).
+3. Click **Load unpacked** and select this repository folder.
+4. Pin the extension, open any page, click the icon, then **Show / hide teleprompter**.
+
+## Usage
+
+- **Whole page**: just click the toolbar button. The extension grabs the main
+  article/content area (falls back to the full body).
+- **Part of a page**: select the text you want first, then toggle the
+  overlay — only your selection is prompted.
+- **Play / Pause** starts and stops auto-scroll (Space bar also works while
+  the overlay is focused). Adjust **Speed** and **Size** with the sliders.
+- **Reload** re-reads the page text from scratch.
+- **Live: on/off** — when on, a MutationObserver watches the page; any new
+  text (e.g. a live transcript appending lines) streams into the prompter,
+  highlighted briefly in blue.
+- **Mirror** flips the text horizontally for beam-splitter teleprompter rigs.
+- Drag the header to move, drag the bottom-right corner to resize.
+
+## How it works
+
+- `content.js` runs on every page. On toggle it clones the main content
+  element, strips non-readable nodes (nav, scripts, buttons, hidden
+  elements...), and renders the remaining text into the overlay.
+- With Live sync on, a debounced `MutationObserver` re-extracts the text on
+  DOM changes. If the new text simply extends the old text (typical for live
+  transcript pages), only the new tail is appended so your reading position
+  is never lost.
+- Auto-scroll uses `requestAnimationFrame` for smooth, per-pixel scrolling at
+  an adjustable px/second rate.
+
+## Limitations
+
+- Does not run on `chrome://` pages, the Chrome Web Store, or PDFs.
+- Text inside cross-origin iframes (e.g. some embedded players/captions)
+  is not accessible to content scripts.
+- Extraction is heuristic; on cluttered pages, select the text you want first
+  for a clean prompt.
